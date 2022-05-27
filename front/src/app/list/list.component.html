@@ -1,1 +1,49 @@
-<p>list works!</p>
+<div style="padding: 4rem;">
+  <div nz-row>
+    <div nz-col nzSpan="8" nzOffset="8">
+      <div style="display: flex;justify-content:center;">
+        <button nz-button nzType="primary" (click)="showModalCreate()">
+          <i nz-icon nzType="plus" nzTheme="outline"></i>
+          Nova tarefa
+        </button>
+        <nz-modal [(nzVisible)]="isVisibleCreate" nzTitle="Nova tarefa" [nzFooter]="modalFooterCreate" (nzOnCancel)="handleCancel()">
+          <ng-container *nzModalContent>
+            <input nz-input placeholder="Nome" [(ngModel)]="content" />
+          </ng-container>
+          <ng-template #modalFooterCreate>
+            <button nz-button nzType="default" (click)="handleCancel()">Cancelar</button>
+            <button nz-button nzType="primary" (click)="handleOkCreate()">Salvar</button>
+          </ng-template>
+        </nz-modal>
+      </div>
+      <nz-list nzBordered>
+        <nz-list-item *ngFor="let item of tasks">
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <a (click)="showModalEdit(item.content, item.id)">
+                <i nz-icon nzType="edit" nzTheme="twotone"></i>
+              </a>
+              <nz-modal [(nzVisible)]="isVisibleEdit" nzTitle="Editar tarefa" [nzFooter]="modalFooterEdit" (nzOnCancel)="handleCancel()">
+                <ng-container *nzModalContent>
+                  <input nz-input placeholder="Nome" [(ngModel)]="content" />
+                </ng-container>
+                <ng-template #modalFooterEdit>
+                  <button nz-button nzType="default" (click)="handleCancel()">Cancelar</button>
+                  <button nz-button nzType="primary" (click)="handleOkEdit()">Salvar</button>
+                </ng-template>
+              </nz-modal>
+            </nz-list-item-action>
+            <nz-list-item-action>
+              <a (click)="showDeleteConfirm(item.id, item.content)">
+                <i nz-icon nzType="delete" nzTheme="twotone" [nzTwotoneColor]="'#eb2f96'"></i>
+              </a>
+            </nz-list-item-action>
+          </ul>
+          <label nz-checkbox [(ngModel)]="item.status" (ngModelChange)="toggleStatus(item.id)">
+            {{ item.content }}
+          </label>
+        </nz-list-item>
+      </nz-list>
+    </div>
+  </div>
+</div>
